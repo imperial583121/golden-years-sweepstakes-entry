@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { MapPin, Phone, Calendar, User } from 'lucide-react';
+import { MapPin, Phone, Calendar, User, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const EntryForm = () => {
@@ -258,17 +257,26 @@ const EntryForm = () => {
                   </div>
                 </div>
 
-                {/* Agreement Checkbox Section */}
+                {/* Privacy & Consent Section */}
                 <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-2xl border-2 border-blue-200 shadow-inner">
-                  <div className="flex items-start space-x-3">
+                  {/* Header */}
+                  <div className="flex items-center gap-3 mb-4 pb-3 border-b border-blue-200">
+                    <div className="bg-blue-600 p-2 rounded-full">
+                      <Shield className="w-5 h-5 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-blue-800">Privacy & Consent</h3>
+                  </div>
+                  
+                  {/* Checkbox Agreement */}
+                  <div className="flex items-start space-x-4">
                     <Checkbox 
                       id="agreement"
                       checked={agreed}
                       onCheckedChange={(checked) => setAgreed(checked as boolean)}
-                      className="mt-1 h-5 w-5"
+                      className="mt-1.5 h-5 w-5 flex-shrink-0"
                     />
                     <div className="flex-1">
-                      <Label htmlFor="agreement" className="text-blue-800 font-medium leading-relaxed cursor-pointer">
+                      <Label htmlFor="agreement" className="text-blue-800 font-medium leading-relaxed cursor-pointer block">
                         I agree to the{' '}
                         <Link 
                           to="/official-rules" 
