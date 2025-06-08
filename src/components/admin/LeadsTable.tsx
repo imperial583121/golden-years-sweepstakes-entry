@@ -30,9 +30,6 @@ const LeadsTable: React.FC<LeadsTableProps> = ({ leads, onDeleteLead }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showExport, setShowExport] = useState(false);
 
-  console.log('LeadsTable received leads:', leads);
-  console.log('Leads count:', leads.length);
-
   // Filter leads based on search term
   const filteredLeads = useMemo(() => {
     if (!searchTerm) return leads;
@@ -153,13 +150,6 @@ const LeadsTable: React.FC<LeadsTableProps> = ({ leads, onDeleteLead }) => {
               </Button>
             </div>
           )}
-
-          {/* Debug Info */}
-          <div className="bg-yellow-50 p-3 rounded border">
-            <p className="text-sm text-yellow-800">
-              Debug: Showing {filteredLeads.length} leads from {leads.length} total
-            </p>
-          </div>
         </CardContent>
       </Card>
 
@@ -184,7 +174,7 @@ const LeadsTable: React.FC<LeadsTableProps> = ({ leads, onDeleteLead }) => {
                 {filteredLeads.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={8} className="text-center py-8 text-gray-500">
-                      {searchTerm ? 'No leads found matching your search' : leads.length === 0 ? 'No leads submitted yet' : 'No leads found'}
+                      {searchTerm ? 'No leads found matching your search' : 'No leads found'}
                     </TableCell>
                   </TableRow>
                 ) : (

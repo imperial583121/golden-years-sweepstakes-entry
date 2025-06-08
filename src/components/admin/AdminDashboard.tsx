@@ -12,52 +12,25 @@ interface AdminDashboardProps {
   onLogout: () => void;
 }
 
-interface Lead {
-  id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone: string | null;
-  address: string | null;
-  city: string | null;
-  state: string | null;
-  zip_code: string | null;
-  birth_year: number | null;
-  created_at: string;
-  date_of_birth: string | null;
-}
-
-interface TableStats {
-  table_name: string;
-  row_count: number;
-}
-
 const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
   const [stats, setStats] = useState({
     totalVisitors: 0,
     totalLeads: 0,
     lastLeadEntry: null as string | null
   });
-  const [leads, setLeads] = useState<Lead[]>([]);
-  const [tableStats, setTableStats] = useState<TableStats[]>([]);
+  const [leads, setLeads] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [debugInfo, setDebugInfo] = useState<any>(null);
   const { toast } = useToast();
 
   const fetchStats = async () => {
     try {
-      console.log('Fetching dashboard stats from admin_summary_stats...');
       const { data, error } = await supabase
-        .from('admin_summary_stats')
+        .from('admin_dashboard_stats')
         .select('*')
         .single();
 
-      if (error) {
-        console.error('Stats fetch error:', error);
-        throw error;
-      }
+      if (error) throw error;
 
-      console.log('Stats data received:', data);
       setStats({
         totalVisitors: data.total_visitors || 0,
         totalLeads: data.total_leads || 0,
@@ -73,66 +46,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
     }
   };
 
-  const fetchTableStats = async () => {
-    try {
-      console.log('Fetching table stats from admin_dashboard_stats...');
-      const { data, error } = await supabase
-        .from('admin_dashboard_stats')
-        .select('*');
-
-      if (error) {
-        console.error('Table stats fetch error:', error);
-        throw error;
-      }
-
-      console.log('Table stats data received:', data);
-      setTableStats(data || []);
-    } catch (error) {
-      console.error('Error fetching table stats:', error);
-      toast({
-        title: "Error",
-        description: "Failed to load table statistics",
-        variant: "destructive"
-      });
-    }
-  };
-
   const fetchLeads = async () => {
     try {
-      console.log('Fetching leads data...');
-      
-      // Try fetching from entries table
-      const { data, error, count } = await supabase
+      const { data, error } = await supabase
         .from('entries')
-        .select('*', { count: 'exact' })
+        .select('*')
         .order('created_at', { ascending: false });
 
-      console.log('Query result - data:', data);
-      console.log('Query result - error:', error);
-      console.log('Query result - count:', count);
-
-      if (error) {
-        console.error('Leads fetch error:', error);
-        
-        // Set debug info for display
-        setDebugInfo({
-          error: error.message,
-          code: error.code,
-          details: error.details,
-          hint: error.hint
-        });
-        
-        throw error;
-      }
-
-      console.log('Leads data received:', data);
-      console.log('Number of leads:', data?.length || 0);
+      if (error) throw error;
       setLeads(data || []);
-      setDebugInfo({ 
-        count, 
-        leadsFetched: data?.length || 0,
-        success: true 
-      });
     } catch (error) {
       console.error('Error fetching leads:', error);
       toast({
@@ -145,24 +67,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
 
   const deleteLead = async (id: string) => {
     try {
-      console.log('Deleting lead with ID:', id);
       const { error } = await supabase
         .from('entries')
         .delete()
         .eq('id', id);
 
-      if (error) {
-        console.error('Delete error:', error);
-        throw error;
-      }
+      if (error) throw error;
 
-      // Update local state to remove the deleted lead
-      setLeads(prevLeads => prevLeads.filter(lead => lead.id !== id));
+      setLeads(leads.filter(lead => lead.id !== id));
+      await fetchStats(); // Refresh stats after deletion
       
-      // Refresh stats after deletion
-      await Promise.all([fetchStats(), fetchTableStats()]);
-      
-      console.log('Lead deleted successfully');
       toast({
         title: "Success",
         description: "Lead deleted successfully"
@@ -179,16 +93,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
 
   useEffect(() => {
     const loadData = async () => {
-      console.log('Loading admin dashboard data...');
       setLoading(true);
-      
-      try {
-        await Promise.all([fetchStats(), fetchTableStats(), fetchLeads()]);
-      } catch (error) {
-        console.error('Error loading dashboard data:', error);
-      } finally {
-        setLoading(false);
-      }
+      await Promise.all([fetchStats(), fetchLeads()]);
+      setLoading(false);
     };
 
     loadData();
@@ -234,47 +141,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
         <div className="space-y-8">
           {/* Dashboard Stats */}
           <DashboardStats stats={stats} />
-
-          {/* Table Statistics */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Database Table Statistics</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {tableStats.map((table) => (
-                  <div key={table.table_name} className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                    <span className="font-medium capitalize">{table.table_name.replace('_', ' ')}</span>
-                    <span className="text-sm text-gray-600">{table.row_count} rows</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Debug Info */}
-          {debugInfo && (
-            <Card className="bg-yellow-50 border-yellow-200">
-              <CardContent className="pt-6">
-                <h3 className="font-semibold text-yellow-900 mb-2">Debug Information:</h3>
-                <div className="text-sm text-yellow-800 space-y-1">
-                  <p>Total leads in component state: {leads.length}</p>
-                  <p>Stats total leads: {stats.totalLeads}</p>
-                  {debugInfo.count !== undefined && <p>Database count from query: {debugInfo.count}</p>}
-                  {debugInfo.leadsFetched !== undefined && <p>Leads fetched: {debugInfo.leadsFetched}</p>}
-                  {debugInfo.success && <p className="text-green-700">✓ Leads fetch successful</p>}
-                  {debugInfo.error && (
-                    <div className="mt-2 p-2 bg-red-100 rounded">
-                      <p className="font-semibold text-red-900">Error: {debugInfo.error}</p>
-                      {debugInfo.code && <p>Code: {debugInfo.code}</p>}
-                      {debugInfo.details && <p>Details: {debugInfo.details}</p>}
-                      {debugInfo.hint && <p>Hint: {debugInfo.hint}</p>}
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          )}
 
           {/* Leads Table */}
           <LeadsTable leads={leads} onDeleteLead={deleteLead} />

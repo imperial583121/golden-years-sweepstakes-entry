@@ -91,13 +91,6 @@ export type Database = {
     Views: {
       admin_dashboard_stats: {
         Row: {
-          row_count: number | null
-          table_name: string | null
-        }
-        Relationships: []
-      }
-      admin_summary_stats: {
-        Row: {
           last_lead_entry: string | null
           total_leads: number | null
           total_visitors: number | null
@@ -106,13 +99,7 @@ export type Database = {
       }
     }
     Functions: {
-      get_admin_dashboard_stats: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          table_name: string
-          row_count: number
-        }[]
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never
