@@ -27,6 +27,11 @@ interface Lead {
   date_of_birth: string | null;
 }
 
+interface TableStats {
+  table_name: string;
+  row_count: number;
+}
+
 const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
   const [stats, setStats] = useState({
     totalVisitors: 0,
@@ -34,15 +39,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
     lastLeadEntry: null as string | null
   });
   const [leads, setLeads] = useState<Lead[]>([]);
+  const [tableStats, setTableStats] = useState<TableStats[]>([]);
   const [loading, setLoading] = useState(true);
   const [debugInfo, setDebugInfo] = useState<any>(null);
   const { toast } = useToast();
 
   const fetchStats = async () => {
     try {
-      console.log('Fetching dashboard stats...');
+      console.log('Fetching dashboard stats from admin_summary_stats...');
       const { data, error } = await supabase
-        .from('admin_dashboard_stats')
+        .from('admin_summary_stats')
         .select('*')
         .single();
 
@@ -67,17 +73,33 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
     }
   };
 
+  const fetchTableStats = async () => {
+    try {
+      console.log('Fetching table stats from admin_dashboard_stats...');
+      const { data, error } = await supabase
+        .from('admin_dashboard_stats')
+        .select('*');
+
+      if (error) {
+        console.error('Table stats fetch error:', error);
+        throw error;
+      }
+
+      console.log('Table stats data received:', data);
+      setTableStats(data || []);
+    } catch (error) {
+      console.error('Error fetching table stats:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load table statistics",
+        variant: "destructive"
+      });
+    }
+  };
+
   const fetchLeads = async () => {
     try {
       console.log('Fetching leads data...');
-      
-      // First, let's check what tables exist
-      const { data: tables, error: tablesError } = await supabase
-        .from('information_schema.tables')
-        .select('table_name')
-        .eq('table_schema', 'public');
-      
-      console.log('Available tables:', tables);
       
       // Try fetching from entries table
       const { data, error, count } = await supabase
@@ -106,7 +128,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
       console.log('Leads data received:', data);
       console.log('Number of leads:', data?.length || 0);
       setLeads(data || []);
-      setDebugInfo({ count, tablesFound: tables?.map(t => t.table_name) });
+      setDebugInfo({ 
+        count, 
+        leadsFetched: data?.length || 0,
+        success: true 
+      });
     } catch (error) {
       console.error('Error fetching leads:', error);
       toast({
@@ -134,7 +160,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
       setLeads(prevLeads => prevLeads.filter(lead => lead.id !== id));
       
       // Refresh stats after deletion
-      await fetchStats();
+      await Promise.all([fetchStats(), fetchTableStats()]);
       
       console.log('Lead deleted successfully');
       toast({
@@ -157,7 +183,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
       setLoading(true);
       
       try {
-        await Promise.all([fetchStats(), fetchLeads()]);
+        await Promise.all([fetchStats(), fetchTableStats(), fetchLeads()]);
       } catch (error) {
         console.error('Error loading dashboard data:', error);
       } finally {
@@ -209,16 +235,34 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
           {/* Dashboard Stats */}
           <DashboardStats stats={stats} />
 
+          {/* Table Statistics */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Database Table Statistics</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                {tableStats.map((table) => (
+                  <div key={table.table_name} className="flex justify-between items-center p-3 bg-gray-50 rounded">
+                    <span className="font-medium capitalize">{table.table_name.replace('_', ' ')}</span>
+                    <span className="text-sm text-gray-600">{table.row_count} rows</span>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Debug Info */}
           {debugInfo && (
             <Card className="bg-yellow-50 border-yellow-200">
               <CardContent className="pt-6">
                 <h3 className="font-semibold text-yellow-900 mb-2">Debug Information:</h3>
                 <div className="text-sm text-yellow-800 space-y-1">
-                  <p>Total leads in state: {leads.length}</p>
+                  <p>Total leads in component state: {leads.length}</p>
                   <p>Stats total leads: {stats.totalLeads}</p>
-                  {debugInfo.count !== undefined && <p>Database count: {debugInfo.count}</p>}
-                  {debugInfo.tablesFound && <p>Tables found: {debugInfo.tablesFound.join(', ')}</p>}
+                  {debugInfo.count !== undefined && <p>Database count from query: {debugInfo.count}</p>}
+                  {debugInfo.leadsFetched !== undefined && <p>Leads fetched: {debugInfo.leadsFetched}</p>}
+                  {debugInfo.success && <p className="text-green-700">✓ Leads fetch successful</p>}
                   {debugInfo.error && (
                     <div className="mt-2 p-2 bg-red-100 rounded">
                       <p className="font-semibold text-red-900">Error: {debugInfo.error}</p>
