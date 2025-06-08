@@ -1,67 +1,77 @@
 
 import React from 'react';
+import { Check } from 'lucide-react';
 
 const HeroSection = () => {
   return (
-    <section className="bg-gradient-to-b from-sweepstakes-navy to-sweepstakes-navy-light text-white py-12 relative overflow-hidden">
+    <section className="bg-gradient-to-b from-sweepstakes-navy to-sweepstakes-navy-light text-white py-8 relative overflow-hidden">
       <div className="container mx-auto px-4 text-center relative z-10">
         <div className="animate-fade-in">
-          <h1 className="text-3xl md:text-5xl font-extrabold mb-6 text-white drop-shadow-lg leading-tight">
+          <h1 className="text-2xl md:text-4xl font-extrabold mb-4 text-white drop-shadow-lg leading-tight">
             Win $10,000 Weekly + $2 Million – Entry Free!
           </h1>
           
-          <div className="text-lg md:text-xl mb-8 space-y-2">
+          <div className="text-base md:text-lg mb-6 space-y-1">
             <p className="text-white font-semibold">100% Free. No Purchase Required.</p>
             <p className="text-sweepstakes-gold font-semibold">For U.S. Residents 18+ Only.</p>
           </div>
 
           {/* PCH Logo with decorative logos on sides */}
-          <div className="flex items-center justify-center gap-4 md:gap-8 mb-8">
+          <div className="flex items-center justify-center gap-3 md:gap-6 mb-6">
             <img 
               src="/lovable-uploads/ffe19771-f5aa-4362-a489-485fa21166d9.png" 
               alt="PCH Logo" 
-              className="w-12 h-12 md:w-16 md:h-16 animate-pulse-gold"
+              className="w-10 h-10 md:w-14 md:h-14 animate-pulse-gold"
             />
             <img 
               src="/lovable-uploads/420bd8bb-9b0a-42fc-9d76-98dfbe44cf39.png" 
               alt="PCH Search" 
-              className="w-12 h-12 md:w-16 md:h-16 animate-pulse-gold"
+              className="w-10 h-10 md:w-14 md:h-14 animate-pulse-gold"
             />
             <img 
               src="/lovable-uploads/fba9fbfa-6083-4479-b827-636ee05c548e.png" 
               alt="PCH Official" 
-              className="h-20 md:h-28 w-auto"
+              className="h-16 md:h-24 w-auto"
             />
             <img 
               src="/lovable-uploads/045b166c-795e-4e5c-9679-80a73550a187.png" 
               alt="PCH Lotto" 
-              className="w-12 h-12 md:w-16 md:h-16 animate-pulse-gold"
+              className="w-10 h-10 md:w-14 md:h-14 animate-pulse-gold"
             />
             <img 
               src="/lovable-uploads/da887793-e8aa-4249-a7df-2fdb876d3f93.png" 
               alt="Mega Millionaire" 
-              className="w-12 h-12 md:w-16 md:h-16 animate-pulse-gold"
+              className="w-10 h-10 md:w-14 md:h-14 animate-pulse-gold"
             />
           </div>
 
-          <div className="inline-block bg-sweepstakes-gold text-sweepstakes-navy px-6 py-3 rounded-lg mb-8 font-bold text-lg md:text-xl">
+          <div className="inline-block bg-sweepstakes-gold text-sweepstakes-navy px-4 py-2 rounded-lg mb-6 font-bold text-base md:text-lg">
             Entry Form Below ↓
           </div>
 
-          <p className="text-lg md:text-xl font-semibold text-white mb-6 px-4">
+          <p className="text-sm md:text-base font-medium text-white mb-4 px-2 leading-relaxed">
             Official Sweepstakes by PublishersUS. No purchase required. 100% free to enter. Must be 18+ and a legal U.S. resident.
           </p>
 
-          {/* Legal requirement boxes */}
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-4">
-            <div className="bg-white/10 backdrop-blur-sm border border-sweepstakes-gold/30 rounded-lg px-4 py-3 text-center">
-              <p className="text-sweepstakes-gold font-bold text-sm md:text-base">NO PURCHASE NECESSARY</p>
+          {/* Legal requirement boxes - 2 rows on mobile, 1 row on larger screens */}
+          <div className="space-y-2 mb-4">
+            {/* First row */}
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-4">
+              <div className="bg-white/10 backdrop-blur-sm border border-sweepstakes-gold/30 rounded-lg px-3 py-2 text-center flex items-center gap-2 min-w-0">
+                <Check className="w-4 h-4 text-sweepstakes-gold flex-shrink-0" />
+                <p className="text-white font-bold text-xs md:text-sm whitespace-nowrap">NO PURCHASE NECESSARY</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm border border-sweepstakes-gold/30 rounded-lg px-3 py-2 text-center flex items-center gap-2 min-w-0">
+                <Check className="w-4 h-4 text-sweepstakes-gold flex-shrink-0" />
+                <p className="text-white font-bold text-xs md:text-sm whitespace-nowrap">U.S. RESIDENTS ONLY</p>
+              </div>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm border border-sweepstakes-gold/30 rounded-lg px-4 py-3 text-center">
-              <p className="text-sweepstakes-gold font-bold text-sm md:text-base">U.S. RESIDENTS ONLY</p>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm border border-sweepstakes-gold/30 rounded-lg px-4 py-3 text-center">
-              <p className="text-sweepstakes-gold font-bold text-sm md:text-base">MUST BE 18+</p>
+            {/* Second row on mobile, continues on same row for larger screens */}
+            <div className="flex justify-center">
+              <div className="bg-white/10 backdrop-blur-sm border border-sweepstakes-gold/30 rounded-lg px-3 py-2 text-center flex items-center gap-2 min-w-0">
+                <Check className="w-4 h-4 text-sweepstakes-gold flex-shrink-0" />
+                <p className="text-white font-bold text-xs md:text-sm whitespace-nowrap">MUST BE 18+</p>
+              </div>
             </div>
           </div>
         </div>
