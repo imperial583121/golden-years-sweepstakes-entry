@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Shield, Lock, MapPin, Phone } from 'lucide-react';
+import { Shield, Lock, MapPin, Phone, Calendar, User } from 'lucide-react';
 
 const EntryForm = () => {
   const [formData, setFormData] = useState({
@@ -110,9 +110,11 @@ const EntryForm = () => {
             
             <CardContent className="p-8 relative z-10">
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* First Name and Last Name in same row */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <Label htmlFor="firstName" className="text-lg font-semibold text-sweepstakes-navy mb-2 block">
+                    <Label htmlFor="firstName" className="text-lg font-semibold text-sweepstakes-navy mb-2 block flex items-center gap-2">
+                      <User className="w-5 h-5 text-sweepstakes-gold" />
                       First Name *
                     </Label>
                     <Input
@@ -127,7 +129,8 @@ const EntryForm = () => {
                   </div>
                   
                   <div>
-                    <Label htmlFor="lastName" className="text-lg font-semibold text-sweepstakes-navy mb-2 block">
+                    <Label htmlFor="lastName" className="text-lg font-semibold text-sweepstakes-navy mb-2 block flex items-center gap-2">
+                      <User className="w-5 h-5 text-sweepstakes-gold" />
                       Last Name *
                     </Label>
                     <Input
@@ -158,6 +161,7 @@ const EntryForm = () => {
                   />
                 </div>
 
+                {/* City and ZIP Code in same row */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <Label htmlFor="city" className="text-lg font-semibold text-sweepstakes-navy mb-2 block flex items-center gap-2">
@@ -212,7 +216,8 @@ const EntryForm = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <Label htmlFor="birthYear" className="text-lg font-semibold text-sweepstakes-navy mb-2 block">
+                    <Label htmlFor="birthYear" className="text-lg font-semibold text-sweepstakes-navy mb-2 block flex items-center gap-2">
+                      <Calendar className="w-5 h-5 text-sweepstakes-gold" />
                       Birth Year *
                     </Label>
                     <Input
