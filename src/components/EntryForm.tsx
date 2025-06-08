@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,6 +21,7 @@ const EntryForm = () => {
   });
 
   const [agreed, setAgreed] = useState(false);
+  const [wantsPromotional, setWantsPromotional] = useState(false);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
@@ -259,17 +259,17 @@ const EntryForm = () => {
                 </div>
 
                 {/* Privacy & Consent Section */}
-                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-2xl border-2 border-blue-200 shadow-inner">
+                <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-2xl border-2 border-blue-200 shadow-inner">
                   {/* Header */}
-                  <div className="flex items-center gap-3 mb-4 pb-3 border-b border-blue-200">
+                  <div className="flex items-center gap-3 mb-6 pb-3 border-b border-blue-200">
                     <div className="bg-blue-600 p-2 rounded-full">
                       <Shield className="w-5 h-5 text-white" />
                     </div>
                     <h3 className="text-xl font-bold text-blue-800">Privacy & Consent</h3>
                   </div>
                   
-                  {/* Checkbox Agreement */}
-                  <div className="flex items-start space-x-4">
+                  {/* First Checkbox - Required Agreement */}
+                  <div className="flex items-start space-x-4 mb-6">
                     <Checkbox 
                       id="agreement"
                       checked={agreed}
@@ -277,7 +277,7 @@ const EntryForm = () => {
                       className="mt-1.5 h-5 w-5 flex-shrink-0"
                     />
                     <div className="flex-1">
-                      <Label htmlFor="agreement" className="text-blue-800 font-medium text-sm leading-snug cursor-pointer block">
+                      <Label htmlFor="agreement" className="text-blue-800 font-medium text-sm leading-relaxed cursor-pointer block">
                         I agree to the{' '}
                         <Link 
                           to="/official-rules" 
@@ -294,7 +294,22 @@ const EntryForm = () => {
                         >
                           Privacy Policy
                         </Link>
-                        .
+                        . I consent to the collection and use of my information for sweepstakes entry and winner notification purposes. I certify that I am 18 years or older and a legal U.S. resident. *
+                      </Label>
+                    </div>
+                  </div>
+
+                  {/* Second Checkbox - Optional Promotional */}
+                  <div className="flex items-start space-x-4">
+                    <Checkbox 
+                      id="promotional"
+                      checked={wantsPromotional}
+                      onCheckedChange={(checked) => setWantsPromotional(checked as boolean)}
+                      className="mt-1.5 h-5 w-5 flex-shrink-0"
+                    />
+                    <div className="flex-1">
+                      <Label htmlFor="promotional" className="text-blue-800 font-medium text-sm leading-relaxed cursor-pointer block">
+                        I would like to receive promotional emails about future sweepstakes and offers (optional)
                       </Label>
                     </div>
                   </div>
@@ -303,7 +318,7 @@ const EntryForm = () => {
                 <Button 
                   type="submit"
                   disabled={!agreed}
-                  className="w-full bg-gradient-to-r from-sweepstakes-gold via-sweepstakes-gold to-sweepstakes-gold-dark hover:from-sweepstakes-gold-dark hover:to-sweepstakes-gold text-sweepstakes-navy font-bold text-xl py-6 rounded-2xl shadow-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-3xl border-2 border-sweepstakes-gold-dark disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  className="w-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 hover:from-yellow-500 hover:to-yellow-400 text-blue-900 font-bold text-xl py-6 rounded-2xl shadow-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-3xl border-2 border-yellow-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.3)' }}
                 >
                   Enter Sweepstakes Now
