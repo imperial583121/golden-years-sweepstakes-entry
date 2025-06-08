@@ -12,6 +12,7 @@ export type Database = {
       entries: {
         Row: {
           address: string | null
+          birth_year: number | null
           city: string | null
           created_at: string
           date_of_birth: string | null
@@ -28,6 +29,7 @@ export type Database = {
         }
         Insert: {
           address?: string | null
+          birth_year?: number | null
           city?: string | null
           created_at?: string
           date_of_birth?: string | null
@@ -44,6 +46,7 @@ export type Database = {
         }
         Update: {
           address?: string | null
+          birth_year?: number | null
           city?: string | null
           created_at?: string
           date_of_birth?: string | null
@@ -60,9 +63,40 @@ export type Database = {
         }
         Relationships: []
       }
+      page_visits: {
+        Row: {
+          id: string
+          ip_address: string | null
+          page_path: string
+          user_agent: string | null
+          visited_at: string
+        }
+        Insert: {
+          id?: string
+          ip_address?: string | null
+          page_path?: string
+          user_agent?: string | null
+          visited_at?: string
+        }
+        Update: {
+          id?: string
+          ip_address?: string | null
+          page_path?: string
+          user_agent?: string | null
+          visited_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      admin_dashboard_stats: {
+        Row: {
+          last_lead_entry: string | null
+          total_leads: number | null
+          total_visitors: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never
