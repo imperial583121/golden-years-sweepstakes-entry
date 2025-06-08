@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Check, Shield, Users } from 'lucide-react';
+import { Shield, Users } from 'lucide-react';
 
 const HeroSection = () => {
   return (
@@ -45,7 +45,7 @@ const HeroSection = () => {
             />
           </div>
 
-          <div className="inline-block bg-sweepstakes-gold text-sweepstakes-navy px-4 py-2 rounded-lg mb-6 font-bold text-base md:text-lg">
+          <div className="inline-block bg-gradient-to-r from-sweepstakes-gold via-sweepstakes-gold to-sweepstakes-gold-dark text-sweepstakes-navy px-6 py-3 rounded-xl mb-6 font-bold text-base md:text-lg shadow-2xl border-2 border-white/20" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.3)' }}>
             Entry Form Below ↓
           </div>
 
@@ -55,7 +55,7 @@ const HeroSection = () => {
 
           {/* Legal requirement boxes - elegant design with classic symbols */}
           <div className="space-y-3 mb-4">
-            {/* First row - 2 boxes side by side */}
+            {/* Only 2 boxes side by side */}
             <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-6">
               <div className="bg-gradient-to-r from-sweepstakes-gold/20 to-sweepstakes-gold/10 backdrop-blur-sm border border-sweepstakes-gold rounded-xl px-4 py-3 shadow-lg flex items-center gap-3 min-w-0 max-w-xs">
                 <div className="bg-sweepstakes-gold rounded-full p-1.5 flex-shrink-0">
@@ -68,15 +68,6 @@ const HeroSection = () => {
                   <Users className="w-4 h-4 text-sweepstakes-navy" />
                 </div>
                 <p className="text-white font-bold text-sm whitespace-nowrap">U.S. RESIDENTS ONLY</p>
-              </div>
-            </div>
-            {/* Second row - 1 box centered */}
-            <div className="flex justify-center">
-              <div className="bg-gradient-to-r from-sweepstakes-gold/20 to-sweepstakes-gold/10 backdrop-blur-sm border border-sweepstakes-gold rounded-xl px-4 py-3 shadow-lg flex items-center gap-3 min-w-0 max-w-xs">
-                <div className="bg-sweepstakes-gold rounded-full p-1.5 flex-shrink-0">
-                  <Check className="w-4 h-4 text-sweepstakes-navy" />
-                </div>
-                <p className="text-white font-bold text-sm whitespace-nowrap">MUST BE 18+</p>
               </div>
             </div>
           </div>
