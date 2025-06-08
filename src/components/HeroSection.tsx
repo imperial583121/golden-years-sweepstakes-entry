@@ -44,8 +44,8 @@ const HeroSection = () => {
             />
           </div>
 
-          <div className="bg-sweepstakes-gold text-sweepstakes-navy p-4 rounded-lg mb-6 font-bold text-lg md:text-xl">
-            🇺🇸 OFFICIAL U.S. SWEEPSTAKES 🇺🇸
+          <div className="inline-block bg-sweepstakes-gold text-sweepstakes-navy px-6 py-3 rounded-lg mb-6 font-bold text-lg md:text-xl">
+            Entry Form Below ↓
           </div>
 
           <p className="text-xl md:text-2xl font-bold text-white mb-4">
