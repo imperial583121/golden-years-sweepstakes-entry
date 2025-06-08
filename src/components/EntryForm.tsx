@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -293,7 +294,7 @@ const EntryForm = () => {
                         >
                           Privacy Policy
                         </Link>
-                        . I consent to the collection and use of my information for sweepstakes entry and winner notification purposes. I certify that I am 18 years or older and a legal U.S. resident.
+                        .
                       </Label>
                     </div>
                   </div>
@@ -302,10 +303,10 @@ const EntryForm = () => {
                 <Button 
                   type="submit"
                   disabled={!agreed}
-                  className="w-full bg-gradient-to-r from-blue-600 via-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-600 text-white font-bold text-xl py-6 rounded-2xl shadow-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-3xl border-2 border-blue-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  className="w-full bg-gradient-to-r from-sweepstakes-gold via-sweepstakes-gold to-sweepstakes-gold-dark hover:from-sweepstakes-gold-dark hover:to-sweepstakes-gold text-sweepstakes-navy font-bold text-xl py-6 rounded-2xl shadow-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-3xl border-2 border-sweepstakes-gold-dark disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.3)' }}
                 >
-                  🎯 Enter Sweepstakes Now
+                  Enter Sweepstakes Now
                 </Button>
               </form>
             </CardContent>
