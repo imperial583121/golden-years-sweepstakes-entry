@@ -6,7 +6,7 @@ const HeroSection = () => {
     <section className="bg-gradient-to-b from-sweepstakes-navy to-sweepstakes-navy-light text-white py-12 relative overflow-hidden">
       <div className="container mx-auto px-4 text-center relative z-10">
         <div className="animate-fade-in">
-          <h1 className="text-3xl md:text-5xl font-bold mb-6 text-sweepstakes-gold drop-shadow-lg">
+          <h1 className="text-3xl md:text-5xl font-extrabold mb-6 text-white drop-shadow-lg leading-tight">
             Win $10,000 Weekly + $2 Million – Entry Free!
           </h1>
           
@@ -44,16 +44,26 @@ const HeroSection = () => {
             />
           </div>
 
-          <div className="inline-block bg-sweepstakes-gold text-sweepstakes-navy px-6 py-3 rounded-lg mb-6 font-bold text-lg md:text-xl">
+          <div className="inline-block bg-sweepstakes-gold text-sweepstakes-navy px-6 py-3 rounded-lg mb-8 font-bold text-lg md:text-xl">
             Entry Form Below ↓
           </div>
 
-          <p className="text-xl md:text-2xl font-bold text-white mb-4">
-            ENTRY DEADLINE APPROACHING
+          <p className="text-lg md:text-xl font-semibold text-white mb-6 px-4">
+            Official Sweepstakes by PublishersUS. No purchase required. 100% free to enter. Must be 18+ and a legal U.S. resident.
           </p>
-          <p className="text-lg text-sweepstakes-gold">
-            Complete your entry below to claim your eligibility
-          </p>
+
+          {/* Legal requirement boxes */}
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-4">
+            <div className="bg-white/10 backdrop-blur-sm border border-sweepstakes-gold/30 rounded-lg px-4 py-3 text-center">
+              <p className="text-sweepstakes-gold font-bold text-sm md:text-base">NO PURCHASE NECESSARY</p>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm border border-sweepstakes-gold/30 rounded-lg px-4 py-3 text-center">
+              <p className="text-sweepstakes-gold font-bold text-sm md:text-base">U.S. RESIDENTS ONLY</p>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm border border-sweepstakes-gold/30 rounded-lg px-4 py-3 text-center">
+              <p className="text-sweepstakes-gold font-bold text-sm md:text-base">MUST BE 18+</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
