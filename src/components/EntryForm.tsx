@@ -276,11 +276,11 @@ const EntryForm = () => {
                       className="mt-1.5 h-5 w-5 flex-shrink-0"
                     />
                     <div className="flex-1">
-                      <Label htmlFor="agreement" className="text-blue-800 font-medium leading-relaxed cursor-pointer block">
+                      <Label htmlFor="agreement" className="text-blue-800 font-medium text-sm leading-snug cursor-pointer block">
                         I agree to the{' '}
                         <Link 
                           to="/official-rules" 
-                          className="text-sweepstakes-gold hover:text-sweepstakes-gold-dark font-bold underline transition-colors"
+                          className="text-blue-600 hover:text-blue-800 font-bold underline transition-colors"
                           target="_blank"
                         >
                           Terms & Conditions
@@ -288,7 +288,7 @@ const EntryForm = () => {
                         {' '}and{' '}
                         <Link 
                           to="/privacy-policy" 
-                          className="text-sweepstakes-gold hover:text-sweepstakes-gold-dark font-bold underline transition-colors"
+                          className="text-blue-600 hover:text-blue-800 font-bold underline transition-colors"
                           target="_blank"
                         >
                           Privacy Policy
@@ -302,7 +302,7 @@ const EntryForm = () => {
                 <Button 
                   type="submit"
                   disabled={!agreed}
-                  className="w-full bg-gradient-to-r from-sweepstakes-gold via-sweepstakes-gold to-sweepstakes-gold-dark hover:from-sweepstakes-gold-dark hover:to-sweepstakes-gold text-sweepstakes-navy font-bold text-xl py-6 rounded-2xl shadow-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-3xl border-2 border-sweepstakes-gold-dark disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  className="w-full bg-gradient-to-r from-blue-600 via-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-600 text-white font-bold text-xl py-6 rounded-2xl shadow-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-3xl border-2 border-blue-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.3)' }}
                 >
                   🎯 Enter Sweepstakes Now
