@@ -7,8 +7,14 @@ const HeroSection = () => {
     <section className="bg-gradient-to-b from-sweepstakes-navy to-sweepstakes-navy-light text-white py-8 relative overflow-hidden">
       <div className="container mx-auto px-4 text-center relative z-10">
         <div className="animate-fade-in">
-          <h1 className="text-2xl md:text-4xl font-extrabold mb-4 text-white drop-shadow-lg leading-tight">
-            Win $10,000 Weekly + $2 Million – Entry Free!
+          <h1 className="text-2xl md:text-4xl font-extrabold mb-4 leading-tight relative">
+            <span className="bg-gradient-to-r from-sweepstakes-gold via-white to-sweepstakes-gold bg-clip-text text-transparent drop-shadow-2xl relative z-10" style={{ 
+              textShadow: '0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 215, 0, 0.4), 0 0 60px rgba(255, 215, 0, 0.2)',
+              filter: 'drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.8))'
+            }}>
+              Win $10,000 Weekly + $2 Million – Entry Free!
+            </span>
+            <div className="absolute inset-0 bg-gradient-to-r from-sweepstakes-gold/20 via-white/10 to-sweepstakes-gold/20 blur-xl -z-10 animate-pulse-gold"></div>
           </h1>
           
           <div className="text-base md:text-lg mb-6 space-y-1">
