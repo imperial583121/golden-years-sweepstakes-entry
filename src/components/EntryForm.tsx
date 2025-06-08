@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { MapPin, Phone, Calendar, User, Shield } from 'lucide-react';
+import { Phone, Calendar, User, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import AddressAutocomplete from './AddressAutocomplete';
 
 const EntryForm = () => {
   const [formData, setFormData] = useState({
@@ -28,6 +28,13 @@ const EntryForm = () => {
   const { toast } = useToast();
 
   const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleAddressChange = (field: 'streetAddress' | 'city' | 'state' | 'postcode', value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
@@ -57,7 +64,7 @@ const EntryForm = () => {
         .insert({
           first_name: formData.firstName,
           last_name: formData.lastName,
-          email: `${formData.firstName.toLowerCase()}.${formData.lastName.toLowerCase()}@example.com`, // Note: You might want to add an email field to your form
+          email: `${formData.firstName.toLowerCase()}.${formData.lastName.toLowerCase()}@example.com`,
           phone: formData.phoneNumber,
           address: formData.streetAddress,
           city: formData.city,
@@ -106,59 +113,6 @@ const EntryForm = () => {
       setIsSubmitting(false);
     }
   };
-
-  const states = [
-    { value: 'Alabama', label: 'Alabama' },
-    { value: 'Alaska', label: 'Alaska' },
-    { value: 'Arizona', label: 'Arizona' },
-    { value: 'Arkansas', label: 'Arkansas' },
-    { value: 'California', label: 'California' },
-    { value: 'Colorado', label: 'Colorado' },
-    { value: 'Connecticut', label: 'Connecticut' },
-    { value: 'Delaware', label: 'Delaware' },
-    { value: 'Florida', label: 'Florida' },
-    { value: 'Georgia', label: 'Georgia' },
-    { value: 'Hawaii', label: 'Hawaii' },
-    { value: 'Idaho', label: 'Idaho' },
-    { value: 'Illinois', label: 'Illinois' },
-    { value: 'Indiana', label: 'Indiana' },
-    { value: 'Iowa', label: 'Iowa' },
-    { value: 'Kansas', label: 'Kansas' },
-    { value: 'Kentucky', label: 'Kentucky' },
-    { value: 'Louisiana', label: 'Louisiana' },
-    { value: 'Maine', label: 'Maine' },
-    { value: 'Maryland', label: 'Maryland' },
-    { value: 'Massachusetts', label: 'Massachusetts' },
-    { value: 'Michigan', label: 'Michigan' },
-    { value: 'Minnesota', label: 'Minnesota' },
-    { value: 'Mississippi', label: 'Mississippi' },
-    { value: 'Missouri', label: 'Missouri' },
-    { value: 'Montana', label: 'Montana' },
-    { value: 'Nebraska', label: 'Nebraska' },
-    { value: 'Nevada', label: 'Nevada' },
-    { value: 'New Hampshire', label: 'New Hampshire' },
-    { value: 'New Jersey', label: 'New Jersey' },
-    { value: 'New Mexico', label: 'New Mexico' },
-    { value: 'New York', label: 'New York' },
-    { value: 'North Carolina', label: 'North Carolina' },
-    { value: 'North Dakota', label: 'North Dakota' },
-    { value: 'Ohio', label: 'Ohio' },
-    { value: 'Oklahoma', label: 'Oklahoma' },
-    { value: 'Oregon', label: 'Oregon' },
-    { value: 'Pennsylvania', label: 'Pennsylvania' },
-    { value: 'Rhode Island', label: 'Rhode Island' },
-    { value: 'South Carolina', label: 'South Carolina' },
-    { value: 'South Dakota', label: 'South Dakota' },
-    { value: 'Tennessee', label: 'Tennessee' },
-    { value: 'Texas', label: 'Texas' },
-    { value: 'Utah', label: 'Utah' },
-    { value: 'Vermont', label: 'Vermont' },
-    { value: 'Virginia', label: 'Virginia' },
-    { value: 'Washington', label: 'Washington' },
-    { value: 'West Virginia', label: 'West Virginia' },
-    { value: 'Wisconsin', label: 'Wisconsin' },
-    { value: 'Wyoming', label: 'Wyoming' }
-  ];
 
   return (
     <section className="py-6 bg-gray-50 relative">
@@ -220,74 +174,16 @@ const EntryForm = () => {
                   </div>
                 </div>
 
-                <div>
-                  <Label htmlFor="streetAddress" className="text-lg font-semibold text-sweepstakes-navy mb-2 block flex items-center gap-2">
-                    <MapPin className="w-5 h-5 text-sweepstakes-gold" />
-                    Street Address *
-                  </Label>
-                  <Input
-                    id="streetAddress"
-                    type="text"
-                    required
-                    value={formData.streetAddress}
-                    onChange={(e) => handleInputChange('streetAddress', e.target.value)}
-                    className="text-lg p-4 border-2 border-gray-300 focus:border-sweepstakes-gold rounded-xl transition-all duration-300 hover:border-sweepstakes-gold/50"
-                    placeholder="Enter your street address"
-                  />
-                </div>
-
-                {/* City and ZIP Code in same row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <Label htmlFor="city" className="text-lg font-semibold text-sweepstakes-navy mb-2 block flex items-center gap-2">
-                      <MapPin className="w-5 h-5 text-sweepstakes-gold" />
-                      City *
-                    </Label>
-                    <Input
-                      id="city"
-                      type="text"
-                      required
-                      value={formData.city}
-                      onChange={(e) => handleInputChange('city', e.target.value)}
-                      className="text-lg p-4 border-2 border-gray-300 focus:border-sweepstakes-gold rounded-xl transition-all duration-300 hover:border-sweepstakes-gold/50"
-                      placeholder="City"
-                    />
-                  </div>
-                  
-                  <div>
-                    <Label htmlFor="postcode" className="text-lg font-semibold text-sweepstakes-navy mb-2 block flex items-center gap-2">
-                      <MapPin className="w-5 h-5 text-sweepstakes-gold" />
-                      ZIP Code *
-                    </Label>
-                    <Input
-                      id="postcode"
-                      type="text"
-                      required
-                      value={formData.postcode}
-                      onChange={(e) => handleInputChange('postcode', e.target.value)}
-                      className="text-lg p-4 border-2 border-gray-300 focus:border-sweepstakes-gold rounded-xl transition-all duration-300 hover:border-sweepstakes-gold/50"
-                      placeholder="ZIP"
-                      maxLength={5}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="state" className="text-lg font-semibold text-sweepstakes-navy mb-2 block flex items-center gap-2">
-                    <MapPin className="w-5 h-5 text-sweepstakes-gold" />
-                    State *
-                  </Label>
-                  <Select value={formData.state} onValueChange={(value) => handleInputChange('state', value)}>
-                    <SelectTrigger className="text-lg p-4 border-2 border-gray-300 focus:border-sweepstakes-gold rounded-xl transition-all duration-300 hover:border-sweepstakes-gold/50">
-                      <SelectValue placeholder="Select State" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {states.map(state => (
-                        <SelectItem key={state.value} value={state.value}>{state.label}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+                {/* Address Autocomplete Component */}
+                <AddressAutocomplete 
+                  formData={{
+                    streetAddress: formData.streetAddress,
+                    city: formData.city,
+                    state: formData.state,
+                    postcode: formData.postcode
+                  }}
+                  onAddressChange={handleAddressChange}
+                />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
