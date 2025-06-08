@@ -1,5 +1,5 @@
-
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Shield, FileText, Scale, Users } from 'lucide-react';
 
 const Footer = () => {
@@ -10,33 +10,45 @@ const Footer = () => {
           <div className="text-center">
             <FileText className="w-8 h-8 text-sweepstakes-gold mx-auto mb-2" />
             <h3 className="font-semibold mb-2">Terms & Conditions</h3>
-            <button className="text-sweepstakes-gold hover:text-white transition-colors">
+            <Link 
+              to="/official-rules"
+              className="text-sweepstakes-gold hover:text-white transition-colors"
+            >
               View Terms
-            </button>
+            </Link>
           </div>
           
           <div className="text-center">
             <Shield className="w-8 h-8 text-sweepstakes-gold mx-auto mb-2" />
             <h3 className="font-semibold mb-2">Privacy Policy</h3>
-            <button className="text-sweepstakes-gold hover:text-white transition-colors">
+            <Link 
+              to="/privacy-policy"
+              className="text-sweepstakes-gold hover:text-white transition-colors"
+            >
               View Policy
-            </button>
+            </Link>
           </div>
           
           <div className="text-center">
             <Scale className="w-8 h-8 text-sweepstakes-gold mx-auto mb-2" />
             <h3 className="font-semibold mb-2">Legal Disclaimers</h3>
-            <button className="text-sweepstakes-gold hover:text-white transition-colors">
+            <Link 
+              to="/official-rules"
+              className="text-sweepstakes-gold hover:text-white transition-colors"
+            >
               View Disclaimers
-            </button>
+            </Link>
           </div>
           
           <div className="text-center">
             <Users className="w-8 h-8 text-sweepstakes-gold mx-auto mb-2" />
             <h3 className="font-semibold mb-2">Eligibility Requirements</h3>
-            <button className="text-sweepstakes-gold hover:text-white transition-colors">
+            <Link 
+              to="/official-rules"
+              className="text-sweepstakes-gold hover:text-white transition-colors"
+            >
               View Requirements
-            </button>
+            </Link>
           </div>
         </div>
         
