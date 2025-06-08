@@ -5,7 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Shield, Lock, MapPin, Phone, Calendar, User } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { MapPin, Phone, Calendar, User } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const EntryForm = () => {
   const [formData, setFormData] = useState({
@@ -19,6 +21,8 @@ const EntryForm = () => {
     phoneNumber: ''
   });
 
+  const [agreed, setAgreed] = useState(false);
+
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
@@ -28,6 +32,10 @@ const EntryForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!agreed) {
+      alert('Please agree to the Terms & Conditions and Privacy Policy to continue.');
+      return;
+    }
     console.log('Form submitted:', formData);
     // TODO: Integrate with Supabase in Part 2
   };
@@ -250,25 +258,43 @@ const EntryForm = () => {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-r from-emerald-50 to-green-50 p-6 rounded-2xl border-2 border-emerald-200 shadow-inner">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="bg-emerald-500 p-2 rounded-full">
-                      <Shield className="w-5 h-5 text-white" />
+                {/* Agreement Checkbox Section */}
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-2xl border-2 border-blue-200 shadow-inner">
+                  <div className="flex items-start space-x-3">
+                    <Checkbox 
+                      id="agreement"
+                      checked={agreed}
+                      onCheckedChange={(checked) => setAgreed(checked as boolean)}
+                      className="mt-1 h-5 w-5"
+                    />
+                    <div className="flex-1">
+                      <Label htmlFor="agreement" className="text-blue-800 font-medium leading-relaxed cursor-pointer">
+                        I agree to the{' '}
+                        <Link 
+                          to="/official-rules" 
+                          className="text-sweepstakes-gold hover:text-sweepstakes-gold-dark font-bold underline transition-colors"
+                          target="_blank"
+                        >
+                          Terms & Conditions
+                        </Link>
+                        {' '}and{' '}
+                        <Link 
+                          to="/privacy-policy" 
+                          className="text-sweepstakes-gold hover:text-sweepstakes-gold-dark font-bold underline transition-colors"
+                          target="_blank"
+                        >
+                          Privacy Policy
+                        </Link>
+                        . I consent to the collection and use of my information for sweepstakes entry and winner notification purposes. I certify that I am 18 years or older and a legal U.S. resident.
+                      </Label>
                     </div>
-                    <div className="bg-emerald-500 p-2 rounded-full">
-                      <Lock className="w-5 h-5 text-white" />
-                    </div>
-                    <span className="font-bold text-emerald-800 text-lg">Your Information is Secure</span>
                   </div>
-                  <p className="text-emerald-700 font-medium">
-                    We use advanced encryption to protect your personal information. 
-                    Your data will never be sold or shared with unauthorized parties.
-                  </p>
                 </div>
 
                 <Button 
                   type="submit"
-                  className="w-full bg-gradient-to-r from-sweepstakes-gold via-sweepstakes-gold to-sweepstakes-gold-dark hover:from-sweepstakes-gold-dark hover:to-sweepstakes-gold text-sweepstakes-navy font-bold text-xl py-6 rounded-2xl shadow-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-3xl border-2 border-sweepstakes-gold-dark"
+                  disabled={!agreed}
+                  className="w-full bg-gradient-to-r from-sweepstakes-gold via-sweepstakes-gold to-sweepstakes-gold-dark hover:from-sweepstakes-gold-dark hover:to-sweepstakes-gold text-sweepstakes-navy font-bold text-xl py-6 rounded-2xl shadow-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-3xl border-2 border-sweepstakes-gold-dark disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.3)' }}
                 >
                   🎯 Enter Sweepstakes Now
