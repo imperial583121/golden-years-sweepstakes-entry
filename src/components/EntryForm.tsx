@@ -165,7 +165,7 @@ const EntryForm = () => {
               </p>
             </CardHeader>
             
-            <CardContent className="p-8 relative z-10">
+            <CardContent className="p-4 md:p-8 relative z-10">
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* First Name and Last Name in same row */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -250,25 +250,25 @@ const EntryForm = () => {
                 </div>
 
                 {/* Privacy & Consent Section */}
-                <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-2xl border-2 border-blue-200 shadow-inner">
+                <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-4 md:p-6 rounded-2xl border-2 border-blue-200 shadow-inner">
                   {/* Header */}
-                  <div className="flex items-center gap-3 mb-6 pb-3 border-b border-blue-200">
+                  <div className="flex items-center gap-3 mb-4 md:mb-6 pb-3 border-b border-blue-200">
                     <div className="bg-blue-600 p-2 rounded-full">
-                      <Shield className="w-5 h-5 text-white" />
+                      <Shield className="w-4 h-4 md:w-5 md:h-5 text-white" />
                     </div>
-                    <h3 className="text-xl font-bold text-blue-800">Privacy & Consent</h3>
+                    <h3 className="text-lg md:text-xl font-bold text-blue-800">Privacy & Consent</h3>
                   </div>
                   
                   {/* Required Agreement Checkbox */}
-                  <div className="flex items-start space-x-4">
+                  <div className="flex items-start space-x-3 md:space-x-4">
                     <Checkbox 
                       id="agreement"
                       checked={agreed}
                       onCheckedChange={(checked) => setAgreed(checked as boolean)}
-                      className="mt-1.5 h-5 w-5 flex-shrink-0"
+                      className="mt-1 h-6 w-6 md:h-5 md:w-5 flex-shrink-0 border-2 border-blue-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
                     />
-                    <div className="flex-1">
-                      <Label htmlFor="agreement" className="text-blue-800 font-medium text-sm leading-relaxed cursor-pointer block">
+                    <div className="flex-1 min-w-0">
+                      <Label htmlFor="agreement" className="text-blue-800 font-medium text-xs md:text-sm leading-relaxed cursor-pointer block break-words">
                         I agree to the{' '}
                         <Link 
                           to="/official-rules" 
