@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -167,113 +168,123 @@ const EntryForm = () => {
             <CardContent className="p-4 md:p-8 relative z-10">
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* First Name and Last Name in same row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <Label htmlFor="firstName" className="text-lg font-semibold text-sweepstakes-navy mb-2 block flex items-center gap-2">
-                      <User className="w-5 h-5 text-sweepstakes-gold" />
-                      First Name *
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="firstName" className="text-base md:text-lg font-bold text-sweepstakes-navy flex items-center gap-2">
+                      <User className="w-4 h-4 md:w-5 md:h-5 text-sweepstakes-gold flex-shrink-0" />
+                      <span className="break-words">First Name *</span>
                     </Label>
-                    <Input
-                      id="firstName"
-                      type="text"
-                      required
-                      value={formData.firstName}
-                      onChange={(e) => handleInputChange('firstName', e.target.value)}
-                      className="text-lg p-4 border-2 border-gray-300 focus:border-sweepstakes-gold rounded-xl transition-all duration-300 hover:border-sweepstakes-gold/50"
-                      placeholder="Enter your first name"
-                    />
+                    <div className="relative">
+                      <Input
+                        id="firstName"
+                        type="text"
+                        required
+                        value={formData.firstName}
+                        onChange={(e) => handleInputChange('firstName', e.target.value)}
+                        className="text-base md:text-lg p-3 md:p-4 border-2 border-blue-300 focus:border-blue-500 rounded-xl transition-all duration-300 hover:border-blue-400 bg-white shadow-sm focus:shadow-md"
+                        placeholder="Enter your first name"
+                      />
+                    </div>
                   </div>
                   
-                  <div>
-                    <Label htmlFor="lastName" className="text-lg font-semibold text-sweepstakes-navy mb-2 block flex items-center gap-2">
-                      <User className="w-5 h-5 text-sweepstakes-gold" />
-                      Last Name *
+                  <div className="space-y-2">
+                    <Label htmlFor="lastName" className="text-base md:text-lg font-bold text-sweepstakes-navy flex items-center gap-2">
+                      <User className="w-4 h-4 md:w-5 md:h-5 text-sweepstakes-gold flex-shrink-0" />
+                      <span className="break-words">Last Name *</span>
                     </Label>
-                    <Input
-                      id="lastName"
-                      type="text"
-                      required
-                      value={formData.lastName}
-                      onChange={(e) => handleInputChange('lastName', e.target.value)}
-                      className="text-lg p-4 border-2 border-gray-300 focus:border-sweepstakes-gold rounded-xl transition-all duration-300 hover:border-sweepstakes-gold/50"
-                      placeholder="Enter your last name"
-                    />
+                    <div className="relative">
+                      <Input
+                        id="lastName"
+                        type="text"
+                        required
+                        value={formData.lastName}
+                        onChange={(e) => handleInputChange('lastName', e.target.value)}
+                        className="text-base md:text-lg p-3 md:p-4 border-2 border-blue-300 focus:border-blue-500 rounded-xl transition-all duration-300 hover:border-blue-400 bg-white shadow-sm focus:shadow-md"
+                        placeholder="Enter your last name"
+                      />
+                    </div>
                   </div>
                 </div>
 
-                {/* Address Autocomplete Component */}
-                <AddressAutocomplete 
-                  formData={{
-                    streetAddress: formData.streetAddress,
-                    city: formData.city,
-                    state: formData.state,
-                    postcode: formData.postcode
-                  }}
-                  onAddressChange={handleAddressChange}
-                />
+                {/* Address Autocomplete Component with enhanced styling */}
+                <div className="space-y-4 md:space-y-6">
+                  <AddressAutocomplete 
+                    formData={{
+                      streetAddress: formData.streetAddress,
+                      city: formData.city,
+                      state: formData.state,
+                      postcode: formData.postcode
+                    }}
+                    onAddressChange={handleAddressChange}
+                  />
+                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <Label htmlFor="birthYear" className="text-lg font-semibold text-sweepstakes-navy mb-2 block flex items-center gap-2">
-                      <Calendar className="w-5 h-5 text-sweepstakes-gold" />
-                      Birth Year *
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="birthYear" className="text-base md:text-lg font-bold text-sweepstakes-navy flex items-center gap-2">
+                      <Calendar className="w-4 h-4 md:w-5 md:h-5 text-sweepstakes-gold flex-shrink-0" />
+                      <span className="break-words">Birth Year *</span>
                     </Label>
-                    <Input
-                      id="birthYear"
-                      type="number"
-                      required
-                      min="1924"
-                      max="2006"
-                      value={formData.birthYear}
-                      onChange={(e) => handleInputChange('birthYear', e.target.value)}
-                      className="text-lg p-4 border-2 border-gray-300 focus:border-sweepstakes-gold rounded-xl transition-all duration-300 hover:border-sweepstakes-gold/50"
-                      placeholder="Enter birth year (e.g., 1990)"
-                    />
+                    <div className="relative">
+                      <Input
+                        id="birthYear"
+                        type="number"
+                        required
+                        min="1924"
+                        max="2006"
+                        value={formData.birthYear}
+                        onChange={(e) => handleInputChange('birthYear', e.target.value)}
+                        className="text-base md:text-lg p-3 md:p-4 border-2 border-blue-300 focus:border-blue-500 rounded-xl transition-all duration-300 hover:border-blue-400 bg-white shadow-sm focus:shadow-md"
+                        placeholder="Enter birth year (e.g., 1990)"
+                      />
+                    </div>
                   </div>
                   
-                  <div>
-                    <Label htmlFor="phoneNumber" className="text-lg font-semibold text-sweepstakes-navy mb-2 block flex items-center gap-2">
-                      <Phone className="w-5 h-5 text-sweepstakes-gold" />
-                      Phone Number *
+                  <div className="space-y-2">
+                    <Label htmlFor="phoneNumber" className="text-base md:text-lg font-bold text-sweepstakes-navy flex items-center gap-2">
+                      <Phone className="w-4 h-4 md:w-5 md:h-5 text-sweepstakes-gold flex-shrink-0" />
+                      <span className="break-words">Phone Number *</span>
                     </Label>
-                    <Input
-                      id="phoneNumber"
-                      type="tel"
-                      required
-                      value={formData.phoneNumber}
-                      onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
-                      className="text-lg p-4 border-2 border-gray-300 focus:border-sweepstakes-gold rounded-xl transition-all duration-300 hover:border-sweepstakes-gold/50"
-                      placeholder="+1 (555) 123-4567"
-                    />
+                    <div className="relative">
+                      <Input
+                        id="phoneNumber"
+                        type="tel"
+                        required
+                        value={formData.phoneNumber}
+                        onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
+                        className="text-base md:text-lg p-3 md:p-4 border-2 border-blue-300 focus:border-blue-500 rounded-xl transition-all duration-300 hover:border-blue-400 bg-white shadow-sm focus:shadow-md"
+                        placeholder="+1 (555) 123-4567"
+                      />
+                    </div>
                   </div>
                 </div>
 
-                {/* Privacy & Consent Section */}
-                <div className="bg-gradient-to-br from-blue-50 via-blue-100 to-blue-50 p-3 md:p-6 rounded-2xl border-2 border-blue-300 shadow-lg relative overflow-hidden">
+                {/* Enhanced Privacy & Consent Section */}
+                <div className="bg-gradient-to-br from-blue-50 via-blue-100 to-blue-50 p-4 md:p-6 rounded-2xl border-2 border-blue-400 shadow-lg relative overflow-hidden">
                   {/* Decorative background pattern */}
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-200/20 via-transparent to-blue-200/20 rounded-2xl"></div>
                   
                   {/* Header */}
-                  <div className="flex items-center gap-2 md:gap-3 mb-3 md:mb-5 pb-2 md:pb-3 border-b-2 border-blue-300 relative z-10">
-                    <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-1.5 md:p-2 rounded-full shadow-md">
-                      <Shield className="w-3 h-3 md:w-5 md:h-5 text-white" />
+                  <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-5 pb-2 md:pb-3 border-b-2 border-blue-400 relative z-10">
+                    <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-1.5 md:p-2 rounded-full shadow-md flex-shrink-0">
+                      <Shield className="w-4 h-4 md:w-5 md:h-5 text-white" />
                     </div>
-                    <h3 className="text-base md:text-xl font-bold text-blue-900 tracking-wide">Privacy & Consent</h3>
+                    <h3 className="text-lg md:text-xl font-bold text-blue-900 tracking-wide break-words">Privacy & Consent</h3>
                   </div>
                   
                   {/* Required Agreement Checkbox */}
-                  <div className="flex items-start gap-2 md:gap-4 relative z-10">
-                    <div className="flex-shrink-0 mt-0.5 md:mt-1">
+                  <div className="flex items-start gap-3 md:gap-4 relative z-10">
+                    <div className="flex-shrink-0 mt-1">
                       <Checkbox 
                         id="agreement"
                         checked={agreed}
                         onCheckedChange={(checked) => setAgreed(checked as boolean)}
-                        className="h-4 w-4 md:h-5 md:w-5 border-2 border-blue-500 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 rounded shadow-sm"
+                        className="h-5 w-5 md:h-6 md:w-6 border-2 border-blue-500 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 rounded shadow-sm"
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <Label htmlFor="agreement" className="text-blue-900 font-medium text-xs md:text-sm leading-relaxed cursor-pointer block break-words">
-                        <span className="block mb-1">
+                      <Label htmlFor="agreement" className="text-blue-900 font-medium text-sm md:text-base leading-relaxed cursor-pointer block">
+                        <span className="block mb-2">
                           I agree to the{' '}
                           <Link 
                             to="/official-rules" 
@@ -300,13 +311,13 @@ const EntryForm = () => {
                   </div>
                   
                   {/* Bottom accent line */}
-                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-0.5 bg-gradient-to-r from-transparent via-blue-400 to-transparent"></div>
+                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-0.5 bg-gradient-to-r from-transparent via-blue-500 to-transparent"></div>
                 </div>
 
                 <Button 
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 hover:from-yellow-500 hover:to-yellow-400 text-blue-900 font-bold text-xl py-6 rounded-2xl shadow-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-3xl border-2 border-yellow-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  className="w-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 hover:from-yellow-500 hover:to-yellow-400 text-blue-900 font-bold text-lg md:text-xl py-4 md:py-6 rounded-2xl shadow-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-3xl border-2 border-yellow-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.3)' }}
                 >
                   {isSubmitting ? 'Submitting...' : 'Enter Sweepstakes Now'}

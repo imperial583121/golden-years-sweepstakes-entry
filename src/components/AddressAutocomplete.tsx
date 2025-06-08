@@ -139,34 +139,36 @@ const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({ formData, onA
   }, []);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       <div className="relative w-full">
-        <Label htmlFor="streetAddress" className="text-lg font-semibold text-sweepstakes-navy mb-2 block flex items-center gap-2">
-          <MapPin className="w-5 h-5 text-sweepstakes-gold" />
-          Street Address *
+        <Label htmlFor="streetAddress" className="text-base md:text-lg font-bold text-sweepstakes-navy mb-2 flex items-center gap-2">
+          <MapPin className="w-4 h-4 md:w-5 md:h-5 text-sweepstakes-gold flex-shrink-0" />
+          <span className="break-words">Street Address *</span>
         </Label>
-        <Input
-          ref={inputRef}
-          id="streetAddress"
-          name="streetAddress"
-          type="text"
-          value={formData.streetAddress}
-          onChange={handleInputChange}
-          placeholder="Start typing your address..."
-          autoComplete="street-address"
-          className="text-lg p-4 border-2 border-gray-300 focus:border-sweepstakes-gold rounded-xl transition-all duration-300 hover:border-sweepstakes-gold/50"
-          required
-        />
+        <div className="relative">
+          <Input
+            ref={inputRef}
+            id="streetAddress"
+            name="streetAddress"
+            type="text"
+            value={formData.streetAddress}
+            onChange={handleInputChange}
+            placeholder="Start typing your address..."
+            autoComplete="street-address"
+            className="text-base md:text-lg p-3 md:p-4 border-2 border-blue-300 focus:border-blue-500 rounded-xl transition-all duration-300 hover:border-blue-400 bg-white shadow-sm focus:shadow-md"
+            required
+          />
+        </div>
         
         {showSuggestions && suggestions.length > 0 && (
           <div
             ref={dropdownRef}
-            className="absolute top-full left-0 right-0 bg-white border-2 border-gray-300 rounded-xl shadow-xl z-50 max-h-60 overflow-y-auto mt-1"
+            className="absolute top-full left-0 right-0 bg-white border-2 border-blue-300 rounded-xl shadow-xl z-50 max-h-60 overflow-y-auto mt-1"
           >
             {suggestions.map((suggestion, index) => (
               <div
                 key={index}
-                className="p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0 transition-colors"
+                className="p-3 hover:bg-blue-50 cursor-pointer border-b border-blue-100 last:border-b-0 transition-colors"
                 onClick={() => handleSuggestionClick(suggestion)}
               >
                 <div className="text-sm font-medium text-sweepstakes-navy">
@@ -178,68 +180,74 @@ const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({ formData, onA
         )}
         
         {isLoading && (
-          <div className="absolute top-full left-0 right-0 bg-white border-2 border-gray-300 rounded-xl shadow-xl z-50 p-3 mt-1">
+          <div className="absolute top-full left-0 right-0 bg-white border-2 border-blue-300 rounded-xl shadow-xl z-50 p-3 mt-1">
             <div className="text-sm text-sweepstakes-navy text-center">Loading suggestions...</div>
           </div>
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <Label htmlFor="city" className="text-lg font-semibold text-sweepstakes-navy mb-2 block flex items-center gap-2">
-            <MapPin className="w-5 h-5 text-sweepstakes-gold" />
-            City *
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+        <div className="space-y-2">
+          <Label htmlFor="city" className="text-base md:text-lg font-bold text-sweepstakes-navy flex items-center gap-2">
+            <MapPin className="w-4 h-4 md:w-5 md:h-5 text-sweepstakes-gold flex-shrink-0" />
+            <span className="break-words">City *</span>
           </Label>
-          <Input
-            id="city"
-            name="city"
-            type="text"
-            value={formData.city}
-            onChange={(e) => onAddressChange('city', e.target.value)}
-            placeholder="City"
-            autoComplete="address-level2"
-            className="text-lg p-4 border-2 border-gray-300 focus:border-sweepstakes-gold rounded-xl transition-all duration-300 hover:border-sweepstakes-gold/50"
-            required
-          />
+          <div className="relative">
+            <Input
+              id="city"
+              name="city"
+              type="text"
+              value={formData.city}
+              onChange={(e) => onAddressChange('city', e.target.value)}
+              placeholder="City"
+              autoComplete="address-level2"
+              className="text-base md:text-lg p-3 md:p-4 border-2 border-blue-300 focus:border-blue-500 rounded-xl transition-all duration-300 hover:border-blue-400 bg-white shadow-sm focus:shadow-md"
+              required
+            />
+          </div>
         </div>
 
-        <div>
-          <Label htmlFor="postcode" className="text-lg font-semibold text-sweepstakes-navy mb-2 block flex items-center gap-2">
-            <MapPin className="w-5 h-5 text-sweepstakes-gold" />
-            ZIP Code *
+        <div className="space-y-2">
+          <Label htmlFor="postcode" className="text-base md:text-lg font-bold text-sweepstakes-navy flex items-center gap-2">
+            <MapPin className="w-4 h-4 md:w-5 md:h-5 text-sweepstakes-gold flex-shrink-0" />
+            <span className="break-words">ZIP Code *</span>
           </Label>
-          <Input
-            id="postcode"
-            name="postcode"
-            type="text"
-            value={formData.postcode}
-            onChange={(e) => onAddressChange('postcode', e.target.value)}
-            placeholder="ZIP"
-            autoComplete="postal-code"
-            pattern="[0-9]{5}(-[0-9]{4})?"
-            className="text-lg p-4 border-2 border-gray-300 focus:border-sweepstakes-gold rounded-xl transition-all duration-300 hover:border-sweepstakes-gold/50"
-            maxLength={5}
-            required
-          />
+          <div className="relative">
+            <Input
+              id="postcode"
+              name="postcode"
+              type="text"
+              value={formData.postcode}
+              onChange={(e) => onAddressChange('postcode', e.target.value)}
+              placeholder="ZIP"
+              autoComplete="postal-code"
+              pattern="[0-9]{5}(-[0-9]{4})?"
+              className="text-base md:text-lg p-3 md:p-4 border-2 border-blue-300 focus:border-blue-500 rounded-xl transition-all duration-300 hover:border-blue-400 bg-white shadow-sm focus:shadow-md"
+              maxLength={5}
+              required
+            />
+          </div>
         </div>
       </div>
 
-      <div>
-        <Label htmlFor="state" className="text-lg font-semibold text-sweepstakes-navy mb-2 block flex items-center gap-2">
-          <MapPin className="w-5 h-5 text-sweepstakes-gold" />
-          State *
+      <div className="space-y-2">
+        <Label htmlFor="state" className="text-base md:text-lg font-bold text-sweepstakes-navy flex items-center gap-2">
+          <MapPin className="w-4 h-4 md:w-5 md:h-5 text-sweepstakes-gold flex-shrink-0" />
+          <span className="break-words">State *</span>
         </Label>
-        <Input
-          id="state"
-          name="state"
-          type="text"
-          value={formData.state}
-          onChange={(e) => onAddressChange('state', e.target.value)}
-          placeholder="State"
-          autoComplete="address-level1"
-          className="text-lg p-4 border-2 border-gray-300 focus:border-sweepstakes-gold rounded-xl transition-all duration-300 hover:border-sweepstakes-gold/50"
-          required
-        />
+        <div className="relative">
+          <Input
+            id="state"
+            name="state"
+            type="text"
+            value={formData.state}
+            onChange={(e) => onAddressChange('state', e.target.value)}
+            placeholder="State"
+            autoComplete="address-level1"
+            className="text-base md:text-lg p-3 md:p-4 border-2 border-blue-300 focus:border-blue-500 rounded-xl transition-all duration-300 hover:border-blue-400 bg-white shadow-sm focus:shadow-md"
+            required
+          />
+        </div>
       </div>
     </div>
   );
