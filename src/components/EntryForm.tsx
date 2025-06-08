@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,19 +20,47 @@ const EntryForm = () => {
     state: '',
     postcode: '',
     birthYear: '',
-    phoneNumber: ''
+    phoneNumber: '+1 '
   });
 
   const [agreed, setAgreed] = useState(false);
-  const [wantsPromotional, setWantsPromotional] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
+  const formatPhoneNumber = (value: string) => {
+    // Remove all non-digit characters except the +1 prefix
+    const cleaned = value.replace(/[^\d]/g, '');
+    
+    // If the user cleared everything, return just +1 
+    if (cleaned.length === 0) {
+      return '+1 ';
+    }
+    
+    // If it starts with 1, assume it's the country code
+    const digits = cleaned.startsWith('1') ? cleaned.slice(1) : cleaned;
+    
+    // Format as (XXX) XXX-XXXX
+    if (digits.length <= 3) {
+      return `+1 (${digits}`;
+    } else if (digits.length <= 6) {
+      return `+1 (${digits.slice(0, 3)}) ${digits.slice(3)}`;
+    } else {
+      return `+1 (${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
+    }
+  };
+
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
+    if (field === 'phoneNumber') {
+      setFormData(prev => ({
+        ...prev,
+        [field]: formatPhoneNumber(value)
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [field]: value
+      }));
+    }
   };
 
   const handleAddressChange = (field: 'streetAddress' | 'city' | 'state' | 'postcode', value: string) => {
@@ -71,7 +100,7 @@ const EntryForm = () => {
           state: formData.state,
           zip_code: formData.postcode,
           date_of_birth: birthDate,
-          marketing_consent: wantsPromotional,
+          marketing_consent: false,
           terms_consent: agreed
         });
 
@@ -97,10 +126,9 @@ const EntryForm = () => {
           state: '',
           postcode: '',
           birthYear: '',
-          phoneNumber: ''
+          phoneNumber: '+1 '
         });
         setAgreed(false);
-        setWantsPromotional(false);
       }
     } catch (error) {
       console.error('Unexpected error:', error);
@@ -216,7 +244,7 @@ const EntryForm = () => {
                       value={formData.phoneNumber}
                       onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
                       className="text-lg p-4 border-2 border-gray-300 focus:border-sweepstakes-gold rounded-xl transition-all duration-300 hover:border-sweepstakes-gold/50"
-                      placeholder="(555) 123-4567"
+                      placeholder="+1 (555) 123-4567"
                     />
                   </div>
                 </div>
@@ -231,8 +259,8 @@ const EntryForm = () => {
                     <h3 className="text-xl font-bold text-blue-800">Privacy & Consent</h3>
                   </div>
                   
-                  {/* First Checkbox - Required Agreement */}
-                  <div className="flex items-start space-x-4 mb-6">
+                  {/* Required Agreement Checkbox */}
+                  <div className="flex items-start space-x-4">
                     <Checkbox 
                       id="agreement"
                       checked={agreed}
@@ -258,21 +286,6 @@ const EntryForm = () => {
                           Privacy Policy
                         </Link>
                         . I consent to the collection and use of my information for sweepstakes entry and winner notification purposes. I certify that I am 18 years or older and a legal U.S. resident. *
-                      </Label>
-                    </div>
-                  </div>
-
-                  {/* Second Checkbox - Optional Promotional */}
-                  <div className="flex items-start space-x-4">
-                    <Checkbox 
-                      id="promotional"
-                      checked={wantsPromotional}
-                      onCheckedChange={(checked) => setWantsPromotional(checked as boolean)}
-                      className="mt-1.5 h-5 w-5 flex-shrink-0"
-                    />
-                    <div className="flex-1">
-                      <Label htmlFor="promotional" className="text-blue-800 font-medium text-sm leading-relaxed cursor-pointer block">
-                        I would like to receive promotional emails about future sweepstakes and offers (optional)
                       </Label>
                     </div>
                   </div>
