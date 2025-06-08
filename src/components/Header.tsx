@@ -13,7 +13,8 @@ const Header = () => {
           />
         </div>
         <div className="text-center mt-2">
-          <p className="text-white text-sm font-semibold">OFFICIAL SWEEPSTAKES NOTIFICATION</p>
+          <p className="text-white text-sm font-semibold">Publishers Clearing House</p>
+          <p className="text-sweepstakes-gold text-xs font-medium">Official Sweepstakes Entry Platform</p>
         </div>
       </div>
     </header>
