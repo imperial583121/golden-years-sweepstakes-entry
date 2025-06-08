@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Check } from 'lucide-react';
+import { Check, Shield, Users } from 'lucide-react';
 
 const HeroSection = () => {
   return (
@@ -53,24 +53,30 @@ const HeroSection = () => {
             Official Sweepstakes by PublishersUS. No purchase required. 100% free to enter. Must be 18+ and a legal U.S. resident.
           </p>
 
-          {/* Legal requirement boxes - 2 rows on mobile, 1 row on larger screens */}
-          <div className="space-y-2 mb-4">
-            {/* First row */}
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-4">
-              <div className="bg-white/10 backdrop-blur-sm border border-sweepstakes-gold/30 rounded-lg px-3 py-2 text-center flex items-center gap-2 min-w-0">
-                <Check className="w-4 h-4 text-sweepstakes-gold flex-shrink-0" />
-                <p className="text-white font-bold text-xs md:text-sm whitespace-nowrap">NO PURCHASE NECESSARY</p>
+          {/* Legal requirement boxes - elegant design with classic symbols */}
+          <div className="space-y-3 mb-4">
+            {/* First row - 2 boxes side by side */}
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-6">
+              <div className="bg-gradient-to-r from-sweepstakes-gold/20 to-sweepstakes-gold/10 backdrop-blur-sm border border-sweepstakes-gold rounded-xl px-4 py-3 shadow-lg flex items-center gap-3 min-w-0 max-w-xs">
+                <div className="bg-sweepstakes-gold rounded-full p-1.5 flex-shrink-0">
+                  <Shield className="w-4 h-4 text-sweepstakes-navy" />
+                </div>
+                <p className="text-white font-bold text-sm whitespace-nowrap">NO PURCHASE NECESSARY</p>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm border border-sweepstakes-gold/30 rounded-lg px-3 py-2 text-center flex items-center gap-2 min-w-0">
-                <Check className="w-4 h-4 text-sweepstakes-gold flex-shrink-0" />
-                <p className="text-white font-bold text-xs md:text-sm whitespace-nowrap">U.S. RESIDENTS ONLY</p>
+              <div className="bg-gradient-to-r from-sweepstakes-gold/20 to-sweepstakes-gold/10 backdrop-blur-sm border border-sweepstakes-gold rounded-xl px-4 py-3 shadow-lg flex items-center gap-3 min-w-0 max-w-xs">
+                <div className="bg-sweepstakes-gold rounded-full p-1.5 flex-shrink-0">
+                  <Users className="w-4 h-4 text-sweepstakes-navy" />
+                </div>
+                <p className="text-white font-bold text-sm whitespace-nowrap">U.S. RESIDENTS ONLY</p>
               </div>
             </div>
-            {/* Second row on mobile, continues on same row for larger screens */}
+            {/* Second row - 1 box centered */}
             <div className="flex justify-center">
-              <div className="bg-white/10 backdrop-blur-sm border border-sweepstakes-gold/30 rounded-lg px-3 py-2 text-center flex items-center gap-2 min-w-0">
-                <Check className="w-4 h-4 text-sweepstakes-gold flex-shrink-0" />
-                <p className="text-white font-bold text-xs md:text-sm whitespace-nowrap">MUST BE 18+</p>
+              <div className="bg-gradient-to-r from-sweepstakes-gold/20 to-sweepstakes-gold/10 backdrop-blur-sm border border-sweepstakes-gold rounded-xl px-4 py-3 shadow-lg flex items-center gap-3 min-w-0 max-w-xs">
+                <div className="bg-sweepstakes-gold rounded-full p-1.5 flex-shrink-0">
+                  <Check className="w-4 h-4 text-sweepstakes-navy" />
+                </div>
+                <p className="text-white font-bold text-sm whitespace-nowrap">MUST BE 18+</p>
               </div>
             </div>
           </div>
