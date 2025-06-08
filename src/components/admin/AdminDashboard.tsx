@@ -35,6 +35,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
   });
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
+  const [debugInfo, setDebugInfo] = useState<any>(null);
   const { toast } = useToast();
 
   const fetchStats = async () => {
@@ -69,19 +70,43 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
   const fetchLeads = async () => {
     try {
       console.log('Fetching leads data...');
-      const { data, error } = await supabase
+      
+      // First, let's check what tables exist
+      const { data: tables, error: tablesError } = await supabase
+        .from('information_schema.tables')
+        .select('table_name')
+        .eq('table_schema', 'public');
+      
+      console.log('Available tables:', tables);
+      
+      // Try fetching from entries table
+      const { data, error, count } = await supabase
         .from('entries')
-        .select('*')
+        .select('*', { count: 'exact' })
         .order('created_at', { ascending: false });
+
+      console.log('Query result - data:', data);
+      console.log('Query result - error:', error);
+      console.log('Query result - count:', count);
 
       if (error) {
         console.error('Leads fetch error:', error);
+        
+        // Set debug info for display
+        setDebugInfo({
+          error: error.message,
+          code: error.code,
+          details: error.details,
+          hint: error.hint
+        });
+        
         throw error;
       }
 
       console.log('Leads data received:', data);
       console.log('Number of leads:', data?.length || 0);
       setLeads(data || []);
+      setDebugInfo({ count, tablesFound: tables?.map(t => t.table_name) });
     } catch (error) {
       console.error('Error fetching leads:', error);
       toast({
@@ -184,14 +209,28 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
           {/* Dashboard Stats */}
           <DashboardStats stats={stats} />
 
-          {/* Debug Info - Remove this in production */}
-          <Card className="bg-blue-50 border-blue-200">
-            <CardContent className="pt-6">
-              <h3 className="font-semibold text-blue-900 mb-2">Debug Info:</h3>
-              <p className="text-sm text-blue-800">Total leads in state: {leads.length}</p>
-              <p className="text-sm text-blue-800">Stats total leads: {stats.totalLeads}</p>
-            </CardContent>
-          </Card>
+          {/* Debug Info */}
+          {debugInfo && (
+            <Card className="bg-yellow-50 border-yellow-200">
+              <CardContent className="pt-6">
+                <h3 className="font-semibold text-yellow-900 mb-2">Debug Information:</h3>
+                <div className="text-sm text-yellow-800 space-y-1">
+                  <p>Total leads in state: {leads.length}</p>
+                  <p>Stats total leads: {stats.totalLeads}</p>
+                  {debugInfo.count !== undefined && <p>Database count: {debugInfo.count}</p>}
+                  {debugInfo.tablesFound && <p>Tables found: {debugInfo.tablesFound.join(', ')}</p>}
+                  {debugInfo.error && (
+                    <div className="mt-2 p-2 bg-red-100 rounded">
+                      <p className="font-semibold text-red-900">Error: {debugInfo.error}</p>
+                      {debugInfo.code && <p>Code: {debugInfo.code}</p>}
+                      {debugInfo.details && <p>Details: {debugInfo.details}</p>}
+                      {debugInfo.hint && <p>Hint: {debugInfo.hint}</p>}
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Leads Table */}
           <LeadsTable leads={leads} onDeleteLead={deleteLead} />
