@@ -24,18 +24,41 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
 
   const fetchStats = async () => {
     try {
-      const { data, error } = await supabase
-        .from('admin_dashboard_stats')
+      // Fetch from the admin_summary_stats view which should return a single row
+      const { data: summaryData, error: summaryError } = await supabase
+        .from('admin_summary_stats')
         .select('*')
         .single();
 
-      if (error) throw error;
+      if (summaryError) {
+        console.error('Summary stats error:', summaryError);
+        // Fallback to manual counting if view doesn't exist
+        const { data: visitorData, error: visitorError } = await supabase
+          .from('page_visits')
+          .select('id', { count: 'exact', head: true });
 
-      setStats({
-        totalVisitors: data.total_visitors || 0,
-        totalLeads: data.total_leads || 0,
-        lastLeadEntry: data.last_lead_entry
-      });
+        const { data: leadData, error: leadError } = await supabase
+          .from('entries')
+          .select('id, created_at', { count: 'exact' })
+          .order('created_at', { ascending: false })
+          .limit(1);
+
+        if (visitorError || leadError) {
+          throw visitorError || leadError;
+        }
+
+        setStats({
+          totalVisitors: visitorData?.length || 0,
+          totalLeads: leadData?.length || 0,
+          lastLeadEntry: leadData && leadData.length > 0 ? leadData[0].created_at : null
+        });
+      } else {
+        setStats({
+          totalVisitors: summaryData.total_visitors || 0,
+          totalLeads: summaryData.total_leads || 0,
+          lastLeadEntry: summaryData.last_lead_entry
+        });
+      }
     } catch (error) {
       console.error('Error fetching stats:', error);
       toast({
