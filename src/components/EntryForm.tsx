@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -250,45 +249,58 @@ const EntryForm = () => {
                 </div>
 
                 {/* Privacy & Consent Section */}
-                <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-4 md:p-6 rounded-2xl border-2 border-blue-200 shadow-inner">
+                <div className="bg-gradient-to-br from-blue-50 via-blue-100 to-blue-50 p-3 md:p-6 rounded-2xl border-2 border-blue-300 shadow-lg relative overflow-hidden">
+                  {/* Decorative background pattern */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-200/20 via-transparent to-blue-200/20 rounded-2xl"></div>
+                  
                   {/* Header */}
-                  <div className="flex items-center gap-3 mb-4 md:mb-6 pb-3 border-b border-blue-200">
-                    <div className="bg-blue-600 p-2 rounded-full">
-                      <Shield className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                  <div className="flex items-center gap-2 md:gap-3 mb-3 md:mb-5 pb-2 md:pb-3 border-b-2 border-blue-300 relative z-10">
+                    <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-1.5 md:p-2 rounded-full shadow-md">
+                      <Shield className="w-3 h-3 md:w-5 md:h-5 text-white" />
                     </div>
-                    <h3 className="text-lg md:text-xl font-bold text-blue-800">Privacy & Consent</h3>
+                    <h3 className="text-base md:text-xl font-bold text-blue-900 tracking-wide">Privacy & Consent</h3>
                   </div>
                   
                   {/* Required Agreement Checkbox */}
-                  <div className="flex items-start space-x-3 md:space-x-4">
-                    <Checkbox 
-                      id="agreement"
-                      checked={agreed}
-                      onCheckedChange={(checked) => setAgreed(checked as boolean)}
-                      className="mt-1 h-6 w-6 md:h-5 md:w-5 flex-shrink-0 border-2 border-blue-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
-                    />
+                  <div className="flex items-start gap-2 md:gap-4 relative z-10">
+                    <div className="flex-shrink-0 mt-0.5 md:mt-1">
+                      <Checkbox 
+                        id="agreement"
+                        checked={agreed}
+                        onCheckedChange={(checked) => setAgreed(checked as boolean)}
+                        className="h-4 w-4 md:h-5 md:w-5 border-2 border-blue-500 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 rounded shadow-sm"
+                      />
+                    </div>
                     <div className="flex-1 min-w-0">
-                      <Label htmlFor="agreement" className="text-blue-800 font-medium text-xs md:text-sm leading-relaxed cursor-pointer block break-words">
-                        I agree to the{' '}
-                        <Link 
-                          to="/official-rules" 
-                          className="text-blue-600 hover:text-blue-800 font-bold underline transition-colors"
-                          target="_blank"
-                        >
-                          Terms & Conditions
-                        </Link>
-                        {' '}and{' '}
-                        <Link 
-                          to="/privacy-policy" 
-                          className="text-blue-600 hover:text-blue-800 font-bold underline transition-colors"
-                          target="_blank"
-                        >
-                          Privacy Policy
-                        </Link>
-                        . I consent to the collection and use of my information for sweepstakes entry and winner notification purposes. I certify that I am 18 years or older and a legal U.S. resident. *
+                      <Label htmlFor="agreement" className="text-blue-900 font-medium text-xs md:text-sm leading-relaxed cursor-pointer block break-words">
+                        <span className="block mb-1">
+                          I agree to the{' '}
+                          <Link 
+                            to="/official-rules" 
+                            className="text-blue-700 hover:text-blue-900 font-bold underline decoration-2 underline-offset-2 transition-colors duration-200"
+                            target="_blank"
+                          >
+                            Terms & Conditions
+                          </Link>
+                          {' '}and{' '}
+                          <Link 
+                            to="/privacy-policy" 
+                            className="text-blue-700 hover:text-blue-900 font-bold underline decoration-2 underline-offset-2 transition-colors duration-200"
+                            target="_blank"
+                          >
+                            Privacy Policy
+                          </Link>
+                          .
+                        </span>
+                        <span className="block">
+                          I consent to the collection and use of my information for sweepstakes entry and winner notification purposes. I certify that I am 18 years or older and a legal U.S. resident. *
+                        </span>
                       </Label>
                     </div>
                   </div>
+                  
+                  {/* Bottom accent line */}
+                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-0.5 bg-gradient-to-r from-transparent via-blue-400 to-transparent"></div>
                 </div>
 
                 <Button 
