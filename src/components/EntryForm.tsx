@@ -7,6 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { MapPin, Phone, Calendar, User, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 const EntryForm = () => {
   const [formData, setFormData] = useState({
@@ -22,6 +24,8 @@ const EntryForm = () => {
 
   const [agreed, setAgreed] = useState(false);
   const [wantsPromotional, setWantsPromotional] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
@@ -30,14 +34,77 @@ const EntryForm = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
     if (!agreed) {
-      alert('Please agree to the Terms & Conditions and Privacy Policy to continue.');
+      toast({
+        title: "Agreement Required",
+        description: "Please agree to the Terms & Conditions and Privacy Policy to continue.",
+        variant: "destructive"
+      });
       return;
     }
-    console.log('Form submitted:', formData);
-    // TODO: Integrate with Supabase in Part 2
+
+    setIsSubmitting(true);
+
+    try {
+      // Calculate date of birth from birth year
+      const birthDate = formData.birthYear ? `${formData.birthYear}-01-01` : null;
+      
+      const { error } = await supabase
+        .from('entries')
+        .insert({
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          email: `${formData.firstName.toLowerCase()}.${formData.lastName.toLowerCase()}@example.com`, // Note: You might want to add an email field to your form
+          phone: formData.phoneNumber,
+          address: formData.streetAddress,
+          city: formData.city,
+          state: formData.state,
+          zip_code: formData.postcode,
+          date_of_birth: birthDate,
+          marketing_consent: wantsPromotional,
+          terms_consent: agreed
+        });
+
+      if (error) {
+        console.error('Supabase error:', error);
+        toast({
+          title: "Submission Failed",
+          description: "There was an error submitting your entry. Please try again.",
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Entry Submitted Successfully!",
+          description: "Thank you for entering the sweepstakes. Good luck!",
+        });
+        
+        // Reset form
+        setFormData({
+          firstName: '',
+          lastName: '',
+          streetAddress: '',
+          city: '',
+          state: '',
+          postcode: '',
+          birthYear: '',
+          phoneNumber: ''
+        });
+        setAgreed(false);
+        setWantsPromotional(false);
+      }
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      toast({
+        title: "Submission Failed",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const states = [
@@ -317,10 +384,11 @@ const EntryForm = () => {
 
                 <Button 
                   type="submit"
-                  className="w-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 hover:from-yellow-500 hover:to-yellow-400 text-blue-900 font-bold text-xl py-6 rounded-2xl shadow-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-3xl border-2 border-yellow-600"
+                  disabled={isSubmitting}
+                  className="w-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 hover:from-yellow-500 hover:to-yellow-400 text-blue-900 font-bold text-xl py-6 rounded-2xl shadow-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-3xl border-2 border-yellow-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.3)' }}
                 >
-                  Enter Sweepstakes Now
+                  {isSubmitting ? 'Submitting...' : 'Enter Sweepstakes Now'}
                 </Button>
               </form>
             </CardContent>
